@@ -1,41 +1,68 @@
-{ config, pkgs, ... }:
-
 {
-  home.packages = with pkgs; [
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  # Install themes/cursors that we reference
+  environment.systemPackages = with pkgs; [
     adwaita-icon-theme
-    gnome-themes-extra
+    papirus-icon-theme
+    bibata-cursors
+    adwaita-qt
   ];
 
-  gtk = {
-    enable = true;
-    theme.name = "Adwaita";
-    iconTheme.name = "Adwaita";
-    cursorTheme = {
-      name = "Adwaita";
-      package = pkgs.adwaita-icon-theme;
-      size = 24;
-    };
+  # Environment variables as a fallback for apps not honoring gsettings
+  # Avoid hard overrides so tools like nwg-look can preview/apply themes dynamically.
+  environment.variables = {
+    GTK2_RC_FILES = "${pkgs.gnome-themes-extra}/share/themes/Adwaita-dark/gtk-2.0/gtkrc"; # GTK2 fallback only
+    QT_QPA_PLATFORMTHEME = "gtk3"; # Qt apps follow GTK portal/theme
   };
 
-  xdg.configFile."gtk-3.0/settings.ini".text = ''
-    [Settings]
-    gtk-theme-name=Adwaita
-    gtk-icon-theme-name=Adwaita
-    gtk-cursor-theme-name=Adwaita
-    gtk-cursor-theme-size=24
-  '';
-
-  xdg.configFile."gtk-4.0/settings.ini".text = ''
-    [Settings]
-    gtk-theme-name=Adwaita
-    gtk-icon-theme-name=Adwaita
-    gtk-cursor-theme-name=Adwaita
-    gtk-cursor-theme-size=24
-  '';
-
-  home.sessionVariables = {
-    XCURSOR_THEME = "Adwaita";
+  # Cursor defaults for XDG/Wayland sessions
+  environment.sessionVariables = {
+    XCURSOR_THEME = "Bibata-Modern-Classic";
     XCURSOR_SIZE = "24";
   };
-}
 
+  # Set system dconf defaults so new users prefer dark by default.
+  # Users can still override per-user via gsettings.
+  environment.etc = {
+    "dconf/profile/user".text = ''
+      user-db:user
+      system-db:local
+    '';
+    "dconf/db/local.d/00_theme".text = ''
+      [org/gnome/desktop/interface]
+      color-scheme='prefer-dark'
+      gtk-theme='Adwaita-dark'
+      icon-theme='Papirus-Dark'
+      cursor-theme='Bibata-Modern-Classic'
+    '';
+  };
+
+  # Rebuild the dconf database at activation to apply system defaults
+  system.activationScripts.dconfUpdate = {
+    # Ensure /etc is populated (including /etc/dconf/...) before running dconf update
+    deps = ["etc"];
+    text = ''
+      if [ -x ${pkgs.dconf}/bin/dconf ]; then
+        if [ -d /etc/dconf/db ]; then
+          ${pkgs.dconf}/bin/dconf update || true
+        fi
+      fi
+    '';
+  };
+
+  # Auto-update xdg user directories
+  system.activationScripts.xdgUserDirs = {
+    text = ''
+      for user_home in /home/*; do
+        if [ -d "$user_home" ]; then
+          user=$(basename "$user_home")
+          sudo -u "$user" ${pkgs.xdg-user-dirs}/bin/xdg-user-dirs-update || true
+        fi
+      done
+    '';
+  };
+}
