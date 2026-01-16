@@ -6,20 +6,22 @@
       noto-fonts-cjk-sans
       noto-fonts-color-emoji 
 
-      jetbrains-mono    
-      maple-mono-NF    
-      fira-code            
-      victor-mono         
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.fira-code
+      nerd-fonts.symbols-only   
 
-      minecraftia        
-      font-awesome      
+      font-awesome             
+      material-design-icons   
+
+      minecraftia          
+      victor-mono          
     ];
 
     fontconfig = {
       defaultFonts = {
         serif = [ "Noto Serif" "Noto Color Emoji" ];
         sansSerif = [ "Inter" "Noto Color Emoji" ];
-        monospace = [ "JetBrains Mono" "Noto Color Emoji" ];
+        monospace = [ "JetBrainsMono Nerd Font" "Noto Color Emoji" ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
