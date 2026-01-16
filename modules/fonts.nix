@@ -1,27 +1,27 @@
 { pkgs, ... }: {
   fonts = {
     packages = with pkgs; [
-      inter                
-      noto-fonts          
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji 
-
       nerd-fonts.jetbrains-mono
       nerd-fonts.fira-code
-      nerd-fonts.symbols-only   
-
-      font-awesome             
-      material-design-icons   
-
-      minecraftia          
-      victor-mono          
+      
+      jetbrains-mono
+      fira-code
+      
+      font-awesome
+      material-icons
+      
+      noto-fonts-color-emoji
+      
+      noto-fonts-cjk-sans
+      
+      powerline-fonts
     ];
-
+    
     fontconfig = {
+      enable = true;
       defaultFonts = {
-        serif = [ "Noto Serif" "Noto Color Emoji" ];
-        sansSerif = [ "Inter" "Noto Color Emoji" ];
-        monospace = [ "JetBrainsMono Nerd Font" "Noto Color Emoji" ];
+        monospace = [ "JetBrainsMono Nerd Font" "Fira Code" ];
+        sansSerif = [ "Noto Sans CJK" ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
