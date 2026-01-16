@@ -11,7 +11,7 @@
   services.displayManager.ly = {
     enable = true;
     settings = {
-      animation = "matrix";
+      animation = "colormix";
       bigclock = true;
       # --- Color Settings (0xAARRGGBB) ---
       # Background color of dialog box (Black)
