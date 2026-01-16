@@ -65,8 +65,7 @@
           ./modules/fonts.nix # Fonts packages
           ./modules/portals.nix # portal
           ./modules/theme.nix # Set dark theme
-          # ./modules/ly.nix # ly greater with matrix animation
-          .modules/sddm.nix
+          ./modules/sddm.nix
           ./modules/nh.nix # nix helper
           inputs.catppuccin.nixosModules.catppuccin
           # Integrate Home Manager as a NixOS module
