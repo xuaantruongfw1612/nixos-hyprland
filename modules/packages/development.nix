@@ -34,5 +34,7 @@
     # Libraries
     openssl
     glib
+
+    nodejs
   ];
 }
