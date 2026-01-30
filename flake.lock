@@ -43,6 +43,7 @@
     "catppuccin": {
       "inputs": {
         "nixpkgs": [
+          "full-config",
           "nixpkgs"
         ]
       },
@@ -63,6 +64,7 @@
     "fenix": {
       "inputs": {
         "nixpkgs": [
+          "full-config",
           "alejandra",
           "nixpkgs"
         ],
@@ -85,6 +87,7 @@
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
+          "full-config",
           "nixvim",
           "nixpkgs"
         ]
@@ -137,9 +140,30 @@
         "type": "github"
       }
     },
+    "full-config": {
+      "inputs": {
+        "ags": "ags",
+        "alejandra": "alejandra",
+        "catppuccin": "catppuccin",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs_3",
+        "nixvim": "nixvim",
+        "quickshell": "quickshell"
+      },
+      "locked": {
+        "path": "./full",
+        "type": "path"
+      },
+      "original": {
+        "path": "./full",
+        "type": "path"
+      },
+      "parent": []
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
+          "full-config",
           "nixpkgs"
         ]
       },
@@ -161,11 +185,13 @@
     "ixx": {
       "inputs": {
         "flake-utils": [
+          "full-config",
           "nixvim",
           "nuschtosSearch",
           "flake-utils"
         ],
         "nixpkgs": [
+          "full-config",
           "nixvim",
           "nuschtosSearch",
           "nixpkgs"
@@ -277,6 +303,7 @@
         "flake-utils": "flake-utils",
         "ixx": "ixx",
         "nixpkgs": [
+          "full-config",
           "nixvim",
           "nixpkgs"
         ]
@@ -298,6 +325,7 @@
     "quickshell": {
       "inputs": {
         "nixpkgs": [
+          "full-config",
           "nixpkgs"
         ]
       },
@@ -317,13 +345,7 @@
     },
     "root": {
       "inputs": {
-        "ags": "ags",
-        "alejandra": "alejandra",
-        "catppuccin": "catppuccin",
-        "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs_3",
-        "nixvim": "nixvim",
-        "quickshell": "quickshell"
+        "full-config": "full-config"
       }
     },
     "rust-analyzer-src": {
