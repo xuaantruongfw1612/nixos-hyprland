@@ -22,6 +22,10 @@
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs @ {
     self,
@@ -77,7 +81,26 @@
               # Import your copied HM modules
               imports = [
                 ./modules/home/default.nix
+                inputs.spicetify-nix.homeManagerModules.default
               ];
+              
+              # Cấu hình Spicetify trực tiếp ở đây
+              programs.spicetify = 
+                let
+                  spicePkgs = inputs.spicetify-nix.legacyPackages.${system};
+                in
+                {
+                  enable = true;
+                  
+                  enabledExtensions = with spicePkgs.extensions; [
+                    adblock
+                    hidePodcasts
+                    shuffle
+                  ];
+                  
+                  theme = spicePkgs.themes.catppuccin;
+                  colorScheme = "mocha";
+                };
             };
           }
         ];

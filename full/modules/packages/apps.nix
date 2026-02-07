@@ -56,5 +56,6 @@
 
     # Fun
     pokemon-colorscripts-mac
+    spotify
   ];
 }

@@ -41,5 +41,8 @@
     nixfmt-rfc-style
     lua-language-server
     nixd
+    rust-analyzer
+    rustfmt
+    stylua
   ];
 }
