@@ -77,7 +77,7 @@
             home-manager.users.${username} = {
               home.username = username;
               home.homeDirectory = "/home/${username}";
-              home.stateVersion = "24.05";
+              home.stateVersion = "25.11";
               # Import your copied HM modules
               imports = [
                 ./modules/home/default.nix

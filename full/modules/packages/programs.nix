@@ -39,6 +39,7 @@
     
     # Terminal
     kitty
+    foot
     
     # File Management
     file-roller

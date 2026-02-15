@@ -39,20 +39,16 @@
     slurp
     swappy
 
-    foot
-
     # Notification & System
     swaynotificationcenter
     
-    (rofi.override {
-            plugins = [ rofi-calc ];
-        })
-
     # AGS & Quickshell
     (inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default)
     (inputs.ags.packages.${pkgs.stdenv.hostPlatform.system}.default)
     
     # XDG
     xdg-user-dirs
+
+    rofi
   ];
 }
