@@ -4,7 +4,7 @@
   ...
 }:
 {
-# XuanTruong Config
+  # XuanTruong Config
   home.file = {
     ".config/ghostty/themes/catppuccin-mocha".source = ./ghostty-themes/catppuccin-mocha;
 
@@ -53,7 +53,7 @@
       wait-after-command = "false";
       shell-integration = "detect";
       window-save-state = "never";
-      working-directory = "~";
+      window-inherit-working-directory = true;
       gtk-single-instance = "true";
       unfocused-split-opacity = "0.5";
       quick-terminal-position = "center";

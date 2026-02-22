@@ -1,5 +1,5 @@
 {
-  description = "KooL's NixOS-Hyprland";
+  description = "Perfect NixOS-Hyprland";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     #nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -26,87 +26,100 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    ags,
-    alejandra,
-    ...
-  }: let
-    system = "x86_64-linux";
-    host = "default";
-    username = "truong";
-    pkgs = import nixpkgs {
-      inherit system;
-      config = {
-        allowUnfree = true;
-      };
+    fcitx5-lotus = {
+      url = "github:LotusInputMethod/fcitx5-lotus";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-  in {
-    nixosConfigurations = {
-      "${host}" = nixpkgs.lib.nixosSystem rec {
-        specialArgs = {
-          inherit system;
-          inherit inputs;
-          inherit username;
-          inherit host;
+  };
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      ags,
+      alejandra,
+      ...
+    }:
+    let
+      system = "x86_64-linux";
+      host = "default";
+      username = "truong";
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
         };
-        modules = [
-          ./hosts/${host}/config.nix
-          # inputs.distro-grub-themes.nixosModules.${system}.default
-          ./modules/overlays.nix # nixpkgs overlays (CMake policy fixes)
-          ./modules/quickshell.nix # quickshell module
-          ./modules/packages.nix # Software packages
-          # Allow broken packages (temporary fix for broken CUDA in nixos-unstable)
-          {nixpkgs.config.allowBroken = true;}
-          ./modules/fonts.nix # Fonts packages
-          ./modules/portals.nix # portal
-          ./modules/theme.nix # Set dark theme
-          ./modules/sddm.nix
-          ./modules/nh.nix # nix helper
-          inputs.catppuccin.nixosModules.catppuccin
-          # Integrate Home Manager as a NixOS module
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-bak";
-            # Ensure HM modules can access flake inputs (e.g., inputs.nixvim)
-            home-manager.extraSpecialArgs = {inherit inputs system username host;};
-            home-manager.users.${username} = {
-              home.username = username;
-              home.homeDirectory = "/home/${username}";
-              home.stateVersion = "25.11";
-              # Import your copied HM modules
-              imports = [
-                ./modules/home/default.nix
-                inputs.spicetify-nix.homeManagerModules.default
-              ];
-              
-              # Cấu hình Spicetify trực tiếp ở đây
-              programs.spicetify = 
-                let
-                  spicePkgs = inputs.spicetify-nix.legacyPackages.${system};
-                in
-                {
-                  enable = true;
-                  
-                  enabledExtensions = with spicePkgs.extensions; [
-                    adblock
-                    hidePodcasts
-                    shuffle
-                  ];
-                  
-                  theme = spicePkgs.themes.catppuccin;
-                  colorScheme = "mocha";
-                };
-            };
-          }
-        ];
       };
+    in
+    {
+      nixosConfigurations = {
+        "${host}" = nixpkgs.lib.nixosSystem rec {
+          specialArgs = {
+            inherit system;
+            inherit inputs;
+            inherit username;
+            inherit host;
+          };
+          modules = [
+            ./hosts/${host}/config.nix
+            # inputs.distro-grub-themes.nixosModules.${system}.default
+            ./modules/overlays.nix # nixpkgs overlays (CMake policy fixes)
+            ./modules/quickshell.nix # quickshell module
+            ./modules/packages.nix # Software packages
+            # Allow broken packages (temporary fix for broken CUDA in nixos-unstable)
+            { nixpkgs.config.allowBroken = true; }
+            ./modules/fonts.nix # Fonts packages
+            ./modules/portals.nix # portal
+            ./modules/theme.nix # Set dark theme
+            ./modules/sddm.nix
+            ./modules/nh.nix # nix helper
+            inputs.catppuccin.nixosModules.catppuccin
+            # Integrate Home Manager as a NixOS module
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "hm-bak";
+              # Ensure HM modules can access flake inputs (e.g., inputs.nixvim)
+              home-manager.extraSpecialArgs = {
+                inherit
+                  inputs
+                  system
+                  username
+                  host
+                  ;
+              };
+              home-manager.users.${username} = {
+                home.username = username;
+                home.homeDirectory = "/home/${username}";
+                home.stateVersion = "25.11";
+                # Import your copied HM modules
+                imports = [
+                  ./modules/home/default.nix
+                  inputs.spicetify-nix.homeManagerModules.default
+                ];
+
+                programs.spicetify =
+                  let
+                    spicePkgs = inputs.spicetify-nix.legacyPackages.${system};
+                  in
+                  {
+                    enable = true;
+
+                    enabledExtensions = with spicePkgs.extensions; [
+                      adblock
+                      hidePodcasts
+                      shuffle
+                    ];
+
+                    theme = spicePkgs.themes.catppuccin;
+                    colorScheme = "mocha";
+                  };
+              };
+            }
+          ];
+        };
+      };
+      # Code formatter
+      formatter.x86_64-linux = alejandra.defaultPackage.x86_64-linux;
     };
-    # Code formatter
-    formatter.x86_64-linux = alejandra.defaultPackage.x86_64-linux;
-  };
 }

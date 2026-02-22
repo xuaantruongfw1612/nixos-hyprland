@@ -1,17 +1,23 @@
-{ pkgs, ... }: {
+{ pkgs, config, inputs, ... }: {
+  
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";
     fcitx5 = {
       waylandFrontend = true;
-      addons = with pkgs; [
-        qt6Packages.fcitx5-unikey  
-        fcitx5-gtk                 
-      ];
     };
   };
 
   environment.systemPackages = with pkgs; [
-    qt6Packages.fcitx5-configtool
+    kdePackages.fcitx5-configtool
   ];
+
+  imports = [
+    inputs.fcitx5-lotus.nixosModules.fcitx5-lotus
+  ];
+
+  services.fcitx5-lotus = {
+    enable = true;
+    user = "truong";
+  };
 }
