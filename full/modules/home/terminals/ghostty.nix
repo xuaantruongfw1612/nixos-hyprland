@@ -1,10 +1,10 @@
+# XuanTruong Config
 {
   pkgs,
   config,
   ...
 }:
 {
-  # XuanTruong Config
   home.file = {
     ".config/ghostty/themes/catppuccin-mocha".source = ./ghostty-themes/catppuccin-mocha;
 

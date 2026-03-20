@@ -38,6 +38,7 @@
     glib
 
     nodejs
+    nodePackages.browser-sync
     nixfmt-rfc-style
     lua-language-server
     nixd
