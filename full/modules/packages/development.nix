@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [
     # Build Tools
     gcc
@@ -8,6 +9,8 @@
     cmake
     cargo
     rustc
+    jdk
+    jdt-language-server
 
     # Lua
     lua5_1

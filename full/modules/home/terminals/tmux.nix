@@ -1,11 +1,7 @@
 { pkgs, config, ... }: {
-# XuanTruong Config
+  # XuanTruong Config
   home.packages = with pkgs; [
-    lazygit
-    yazi
-    fzf
-    bc
-    wl-clipboard
+    lazygit yazi fzf bc wl-clipboard
   ];
 
   programs.tmux = {
@@ -15,17 +11,18 @@
     historyLimit = 10000;
     mouse = true;
     escapeTime = 0;
-    
     sensibleOnTop = true; 
 
     plugins = with pkgs.tmuxPlugins; [
       vim-tmux-navigator
       sensible
       catppuccin
-      
       {
         plugin = resurrect;
-        extraConfig = "set -g @resurrect-capture-pane-contents 'on'";
+        extraConfig = ''
+          set -g @resurrect-capture-pane-contents 'on'
+          set -g @resurrect-dir '~/.local/share/tmux/resurrect'
+        '';
       }
       {
         plugin = continuum;
@@ -53,7 +50,7 @@
       
       # -- Keybindings --
       unbind r
-      bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
+      bind r source-file ~/.tmux.conf \; display-message "Config reloaded!"
       
       # Window & Split
       bind c new-window -c '#{pane_current_path}'

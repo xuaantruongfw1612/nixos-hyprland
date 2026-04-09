@@ -36,7 +36,10 @@
     # Browsers
     google-chrome
     microsoft-edge
-    
+    firefox
+    qutebrowser
+    brave
+
     # Terminal
     kitty
     foot
