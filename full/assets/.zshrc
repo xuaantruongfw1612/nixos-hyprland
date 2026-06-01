@@ -16,6 +16,8 @@ alias gco='git checkout'
 alias gp='git push'
 alias gl='git pull'
 
+alias lzd='lazydocker'
+
 alias grep='grep --color=auto'
 
 if command -v lsd >/dev/null 2>&1; then

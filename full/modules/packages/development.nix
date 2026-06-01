@@ -41,6 +41,7 @@
     glib
 
     nodejs
+    vtsls # LSP for JS/TS
     nodePackages.browser-sync
     nixfmt-rfc-style
     lua-language-server
@@ -48,5 +49,8 @@
     rust-analyzer
     rustfmt
     stylua
+    maven
+    cloudflared
+    mariadb
   ];
 }

@@ -1,4 +1,5 @@
 # 💫 https://github.com/JaKooLit 💫 #
+# Config more by XuanTruong
 # Main default config
 {
   pkgs,
@@ -6,9 +7,11 @@
   username,
   options,
   ...
-}: let
+}:
+let
   inherit (import ./variables.nix) keyboardLayout;
-in {
+in
+{
   imports = [
     ./hardware.nix
     ./users.nix
@@ -47,7 +50,7 @@ in {
         "usbhid"
         "sd_mod"
       ];
-      kernelModules = [];
+      kernelModules = [ ];
     };
 
     # Needed For Some Steam Games
@@ -124,7 +127,7 @@ in {
   networking = {
     networkmanager.enable = true;
     hostName = "${host}";
-    timeServers = options.networking.timeServers.default ++ ["pool.ntp.org"];
+    timeServers = options.networking.timeServers.default ++ [ "pool.ntp.org" ];
   };
 
   # Set your time zone.
@@ -227,7 +230,7 @@ in {
   };
 
   systemd.services.flatpak-repo = {
-    path = [pkgs.flatpak];
+    path = [ pkgs.flatpak ];
     script = ''
       flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     '';
@@ -310,8 +313,8 @@ in {
         "nix-command"
         "flakes"
       ];
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
     };
     gc = {
       automatic = true;
@@ -345,6 +348,41 @@ in {
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  networking.firewall = {
+    enable = true;
+    allowedUDPPorts = [ 67 ];
+    trustedInterfaces = [ "wlp0s20f3" ]; # hotspot
+  };
+
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1; # It works after a restart.
+  };
+
+  networking.nftables.enable = false;
+  systemd.services.hotspot-nat = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    script = ''
+      ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -o wlp0s20f0u1i2 -j MASQUERADE
+    '';
+  };
+
+  systemd.services.hotspot-auto = {
+    description = "Auto start hotspot";
+    wantedBy = [ "multi-user.target" ];
+    after = [
+      "network.target"
+      "hotspot-nat.service"
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      ${pkgs.networkmanager}/bin/nmcli connection up Hotspot || true
+    '';
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

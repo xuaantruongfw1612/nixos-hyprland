@@ -55,7 +55,9 @@
     findutils
 
     # Fun
-    pokemon-colorscripts-mac
+    # pokemon-colorscripts-mac
     spotify
+
+    anki
   ];
 }

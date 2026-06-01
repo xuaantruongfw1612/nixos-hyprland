@@ -72,7 +72,6 @@
             ./modules/theme.nix # Set dark theme
             ./modules/sddm.nix
             ./modules/nh.nix # nix helper
-            ./modules/nekoray.nix # nix helper
             inputs.catppuccin.nixosModules.catppuccin
             # Integrate Home Manager as a NixOS module
             inputs.home-manager.nixosModules.home-manager

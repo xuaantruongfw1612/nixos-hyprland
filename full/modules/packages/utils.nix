@@ -44,6 +44,7 @@
     trippy
     ncftp
     netop
+    iw
     
     # Container & Process
     ctop
