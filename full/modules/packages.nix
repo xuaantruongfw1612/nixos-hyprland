@@ -16,10 +16,12 @@
   environment.variables = {
     JAKOS_NIXOS_VERSION = "0.0.5";
     JAKOS = "true";
-    
+   
     XMODIFIERS = "@im=fcitx";
     QT_IM_MODULE = "fcitx";
     GTK_IM_MODULE = "fcitx";
-    SDL_IM_MODULE = "fcitx"; 
+    SDL_IM_MODULE = "fcitx";
+    
+    NIXOS_OZONE_WL = "1";
   };
 }

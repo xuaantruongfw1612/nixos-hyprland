@@ -38,6 +38,7 @@
     libsForQt5.qt5ct
     gsettings-qt
     gtk-engine-murrine
+    gnome-themes-extra
 
     # System Notifications
     libnotify
@@ -59,5 +60,8 @@
     spotify
 
     anki
+    unityhub
+
+    dbeaver-bin # Database Management Tool
   ];
 }

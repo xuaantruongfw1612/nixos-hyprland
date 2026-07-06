@@ -61,7 +61,5 @@
     # ZSH plugins
     zsh-autosuggestions
     zsh-syntax-highlighting
-
-    kanata
   ];
 }

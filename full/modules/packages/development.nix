@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  virtualisation.docker.enable = true;
+
+  users.users."truong".extraGroups = [ "docker" ];
+
   environment.systemPackages = with pkgs; [
     # Build Tools
     gcc
@@ -41,7 +45,7 @@
     glib
 
     nodejs
-    vtsls # LSP for JS/TS
+    vtsls
     nodePackages.browser-sync
     nixfmt-rfc-style
     lua-language-server
@@ -49,8 +53,14 @@
     rust-analyzer
     rustfmt
     stylua
+    nodePackages.prettier
     maven
     cloudflared
     mariadb
+
+    # C#
+    omnisharp-roslyn
+    csharpier
+    dotnet-sdk_8
   ];
 }

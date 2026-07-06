@@ -5,6 +5,10 @@
     type = "fcitx5";
     fcitx5 = {
       waylandFrontend = true;
+      addons = with pkgs; [
+        fcitx5-gtk
+        fcitx5-bamboo     # engine tiếng Việt
+      ];
     };
   };
 
@@ -12,12 +16,12 @@
     kdePackages.fcitx5-configtool
   ];
 
-  imports = [
-    inputs.fcitx5-lotus.nixosModules.fcitx5-lotus
-  ];
-
-  services.fcitx5-lotus = {
-    enable = true;
-    user = "truong";
-  };
+  # imports = [
+  #   inputs.fcitx5-lotus.nixosModules.fcitx5-lotus
+  # ];
+  #
+  # services.fcitx5-lotus = {
+  #   enable = true;
+  #   user = "truong";
+  # };
 }

@@ -154,7 +154,7 @@ in
   # Services to start
   services = {
     xserver = {
-      enable = false;
+      enable = false; # Dùng Gnome thì cmt
       xkb = {
         layout = "${keyboardLayout}";
         variant = "";
@@ -349,6 +349,7 @@ in
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # How to create hotspot "sudo nmcli device wifi hotspot ifname wlp0s20f3 ssid Name password Pass"
   networking.firewall = {
     enable = true;
     allowedUDPPorts = [ 67 ];

@@ -26,10 +26,10 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    fcitx5-lotus = {
-      url = "github:LotusInputMethod/fcitx5-lotus";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # fcitx5-lotus = {
+    #   url = "github:LotusInputMethod/fcitx5-lotus";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
   outputs =
     inputs@{
@@ -70,8 +70,9 @@
             ./modules/fonts.nix # Fonts packages
             ./modules/portals.nix # portal
             ./modules/theme.nix # Set dark theme
-            ./modules/sddm.nix
+            ./modules/sddm.nix # Dùng Gnome thì cmt
             ./modules/nh.nix # nix helper
+            ./modules/ollama.nix
             inputs.catppuccin.nixosModules.catppuccin
             # Integrate Home Manager as a NixOS module
             inputs.home-manager.nixosModules.home-manager
